@@ -1,0 +1,9 @@
+{
+  "title": "Brief a GitHub issue",
+  "author": {
+    "name": "Open Connector",
+    "url": "https://github.com/openconnector-dev"
+  },
+  "toolkits": ["github"],
+  "toolSlugs": ["GITHUB_ISSUES_GET"]
+}

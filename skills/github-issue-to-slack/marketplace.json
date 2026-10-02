@@ -1,0 +1,9 @@
+{
+  "title": "Share a GitHub issue in Slack",
+  "author": {
+    "name": "Open Connector",
+    "url": "https://github.com/openconnector-dev"
+  },
+  "toolkits": ["github", "slack"],
+  "toolSlugs": ["GITHUB_ISSUES_GET", "SLACK_CHAT_POST_MESSAGE"]
+}

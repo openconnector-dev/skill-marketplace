@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "slug": "github-issue-brief",
+      "name": "github-issue-brief",
+      "title": "Brief a GitHub issue",
+      "description": "Read a specific GitHub issue through Open Connector and give a concise status brief with a source link.",
+      "author": {
+        "name": "Open Connector",
+        "url": "https://github.com/openconnector-dev"
+      },
+      "toolkits": [
+        "github"
+      ],
+      "toolSlugs": [
+        "GITHUB_ISSUES_GET"
+      ],
+      "digest": "9841e233adc023863493323992924b56f4006e6ec9bc5fcbaa71ae7488d66513",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "encoding": "utf8",
+          "content": "---\nname: github-issue-brief\ndescription: Read a specific GitHub issue through Open Connector and give a concise status brief with a source link.\n---\n\n# Brief a GitHub issue\n\nUse this Skill when the user asks for the current status or a short summary of a GitHub issue.\n\n1. Get the exact owner, repository, and issue number from the user or a supplied URL.\n2. Run `oc --json --no-input doctor`, then inspect `GITHUB_ISSUES_GET` with `oc --json --no-input tools info GITHUB_ISSUES_GET`. Follow the current schema when constructing arguments.\n3. Select an active GitHub Connected Account with access to that repository. Execute `GITHUB_ISSUES_GET` with its exact ID and the issue arguments.\n4. Summarize the title, state, assignees, labels, and key context that the Tool actually returned. Link to the issue and say if any requested information was absent. Do not infer an update that the response does not contain.\n\nThis Skill reads GitHub and does not modify the issue.\n"
+        }
+      ]
+    },
+    {
+      "slug": "github-issue-to-slack",
+      "name": "github-issue-to-slack",
+      "title": "Share a GitHub issue in Slack",
+      "description": "Share the current details of a specific GitHub issue in a Slack channel using Open Connector.",
+      "author": {
+        "name": "Open Connector",
+        "url": "https://github.com/openconnector-dev"
+      },
+      "toolkits": [
+        "github",
+        "slack"
+      ],
+      "toolSlugs": [
+        "GITHUB_ISSUES_GET",
+        "SLACK_CHAT_POST_MESSAGE"
+      ],
+      "digest": "b7672be03940a8bd82c71d82d2aa6ee6294e16b002edbb054e0f17a8edcbe04c",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "encoding": "utf8",
+          "content": "---\nname: github-issue-to-slack\ndescription: Share the current details of a specific GitHub issue in a Slack channel using Open Connector.\n---\n\n# Share a GitHub issue in Slack\n\nUse this Skill when the user gives a GitHub issue and asks you to post a concise update in a Slack channel. This task reads GitHub with `GITHUB_ISSUES_GET` and writes to Slack with `SLACK_CHAT_POST_MESSAGE`.\n\n1. Identify the exact GitHub owner, repository, and issue number, plus the exact Slack channel. Ask for missing identifiers. Do not guess a channel.\n2. Check that Open Connector is ready with `oc --json --no-input doctor`. Inspect both current Tool schemas in one call: `oc --json --no-input tools info GITHUB_ISSUES_GET SLACK_CHAT_POST_MESSAGE`. Use the returned input fields rather than assuming this Skill contains a current schema.\n3. Find the active Connected Account for each Toolkit. Use exact account IDs when executing; do not choose an ambiguous account.\n4. Call `GITHUB_ISSUES_GET` with the user's issue identity. Extract the title, URL, current state, and relevant body or latest context from the response. If the issue cannot be found, stop without posting.\n5. Draft a short Slack message that links to the issue and distinguishes facts from your summary. Show the exact destination and message to the user and get confirmation before posting.\n6. Use `oc --json --no-input execute SLACK_CHAT_POST_MESSAGE --connected-account <slack-account-id> --dry-run --data @message.json` to check the prepared input. Then execute the same Tool with the confirmed destination and message. Report the Tool result and do not claim success if the provider reports failure.\n\nNever copy private issue content to a Slack channel unless the user specifically authorized that destination.\n"
+        }
+      ]
+    }
+  ]
+}

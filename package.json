@@ -1,0 +1,9 @@
+{
+  "name": "@openconnector/skills",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "catalog": "node scripts/build-catalog.mjs",
+    "check": "node scripts/build-catalog.mjs --check"
+  }
+}
