@@ -27,4 +27,4 @@ The [Open Connector Agent Plugin](https://github.com/openconnector-dev/openconne
 
 Add `skills/<slug>/SKILL.md` and `marketplace.json`, then run `npm run catalog` and commit the resulting `catalog.json`. See [CONTRIBUTING.md](CONTRIBUTING.md). Anyone may open a PR or improve an existing Skill; maintainers review changes before merging.
 
-Community Skills and catalog files are MIT licensed. The official `oc-cli` guide retains the Open Connector AGPL-3.0-only license in [`skills/oc-cli/LICENSE.md`](skills/oc-cli/LICENSE.md). Skills contain instructions and static files only, never credentials or executable scripts.
+All Skills and catalog files are MIT licensed. The official `oc-cli` guide includes a copy of the [MIT license](skills/oc-cli/LICENSE.md) so it remains with the guide when installed. Skills contain instructions and static files only, never credentials or executable scripts.
