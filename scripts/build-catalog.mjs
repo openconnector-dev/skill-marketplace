@@ -13,6 +13,7 @@ const textExtensions = new Set([".md", ".json", ".svg"]);
 const imageExtensions = new Set([".png", ".jpg", ".jpeg", ".webp"]);
 const maxFileBytes = 128_000;
 const maxFiles = 25;
+const standaloneGuides = new Set(["oc-cli"]);
 
 function fail(message) {
   throw new Error(message);
@@ -73,6 +74,13 @@ for (const entry of await readdir(skillsRoot, { withFileTypes: true })) {
   }
   const slug = entry.name;
   const directory = join(skillsRoot, slug);
+  const files = await filesIn(directory);
+  if (files.length > maxFiles) fail(`${slug}: too many files`);
+  const skillFile = files.find((file) => file.path === "SKILL.md");
+  if (!skillFile) fail(`${slug}: missing SKILL.md`);
+  const { name, description } = frontmatter(skillFile.content, slug);
+  // The general CLI guide is installable but has no task-specific Tool dependencies.
+  if (standaloneGuides.has(slug)) continue;
   const metadata = JSON.parse(await readFile(join(directory, "marketplace.json"), "utf8"));
   const title = requiredString(metadata.title, `${slug} title`);
   const authorName = requiredString(metadata.author?.name, `${slug} author.name`);
@@ -86,11 +94,6 @@ for (const entry of await readdir(skillsRoot, { withFileTypes: true })) {
       metadata.toolSlugs.some((value) => typeof value !== "string" || !toolPattern.test(value))) {
     fail(`${slug}: toolSlugs must contain exact Tool slugs`);
   }
-  const files = await filesIn(directory);
-  if (files.length > maxFiles) fail(`${slug}: too many files`);
-  const skillFile = files.find((file) => file.path === "SKILL.md");
-  if (!skillFile) fail(`${slug}: missing SKILL.md`);
-  const { name, description } = frontmatter(skillFile.content, slug);
   skills.push({
     slug, name, title, description,
     author: { name: authorName, url: authorUrl },
