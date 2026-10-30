@@ -76,7 +76,7 @@ jobs:
         id: review
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # The job gate above decides who is reviewed, so the action's own
           # write-access check is bypassed. The token only has read scopes and
           # Claude gets read-only file tools; comments and merges happen in a
